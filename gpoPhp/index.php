@@ -4,6 +4,7 @@ require "php/model/scripts.php";
 $titre = "Connexion portes ouvertes";
 checkLogged();
 
+
 ?>
 
 <?php require "php/templates/head.php"; ?>

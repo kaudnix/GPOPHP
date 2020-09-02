@@ -7,7 +7,7 @@ body{
     height: 100%;
     position: fixed;
     background-color: #7386d5;
-    z-index: 10001;
+    z-index: 1000000;
     overflow-x: hidden;
     transition: 0.5s;
     font-size: 1.8rem;

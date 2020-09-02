@@ -1,22 +1,24 @@
 <?php
 
 require "../model/scripts.php";
-    $categorie = $_GET["category"];
-    $tab = [];
-    $db = connectDb();
-    $requete = "SELECT * 
-                FROM inclure I, question Q, reponsederoulant RD 
-                WHERE I.ID_Question = Q.ID_Question AND I.idRepDeroulant = RD.idRepDeroulant
-                AND RD.libelRepDeroulant = '$categorie'";
-    $exec = mysqli_query($db,$requete);
-    $resultat = mysqli_fetch_assoc($exec);
 
+   $idQuestion = $_GET["idQuestion"];
+   $idReponse = $_GET["idReponse"];
+   $listeReponses = [];
 
-    $tab = listeDeroulant($resultat["questionLiee"]);
-    echo "<select class='form-control'>";
-    foreach ($tab as $uneFormation => $valeur){
-        echo "<option>".$valeur["libelRepDeroulant"]."</option>";
-    }
-    echo "</select>";
-
-    mysqli_close($db);
+   if (isset($idQuestion) && isset($idReponse)){
+       $tab = getIdSousQuestionDeroulant($idQuestion,$idReponse);
+       if ($tab){
+           $listeReponses = getReponsesDeroulant($tab[0]["ID_Question"]);
+           $donnee = new stdClass();
+           $compteur = 1;
+           foreach ($listeReponses as $uneReponse){
+                $donnee->Libel_rep[$compteur] = $uneReponse["Libel_rep"];
+               $donnee->ID_Reponse[$compteur] = $uneReponse["Id_Reponse"];
+                $compteur++;
+           }
+           $donnee->ID_Question = $uneReponse["ID_Question"];
+           echo json_encode($donnee);
+       }else{
+       }
+   }
